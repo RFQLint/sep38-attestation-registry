@@ -15,7 +15,7 @@ exact pattern:
 - [`sep38-conformance`](https://github.com/RFQLint/sep38-conformance) — the checking library + CLI. Produces the results this contract stores.
 - **This repo** — the on-chain record.
 - `sep38-conformance-backend` — the API service that runs the checker and writes to this contract.
-- `sep38-conformance-frontend` — dashboard over that backend.
+- [`sep38-conformance-frontend`](https://github.com/RFQLint/sep38-conformance-frontend) — dashboard over that backend.
 
 ```mermaid
 flowchart LR
