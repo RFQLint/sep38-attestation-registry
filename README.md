@@ -9,7 +9,7 @@ depend on trusting whoever runs the checker.
 Part of a four-repo project mirroring
 [`sep24-attestation-registry`](https://github.com/SEP-24-conform/sep24-attestation-registry)
 and
-[`sep31-attestation-registry`](https://github.com/sep31-conformance/sep31-attestation-registry)'s
+[`corridorlint-registry`](https://github.com/sep31-conformance/corridorlint-registry)'s
 exact pattern:
 
 - [`rfqlint`](https://github.com/RFQLint/rfqlint) — the checking library + CLI. Produces the results this contract stores.
@@ -74,7 +74,7 @@ signed by one admin key" — is identical regardless of which SEP is being
 attested to, so this contract's Rust source is structurally the same as
 [`sep24-attestation-registry`](https://github.com/SEP-24-conform/sep24-attestation-registry)'s
 and
-[`sep31-attestation-registry`](https://github.com/sep31-conformance/sep31-attestation-registry)'s.
+[`corridorlint-registry`](https://github.com/sep31-conformance/corridorlint-registry)'s.
 Deliberate reuse of a proven, already-audited-in-full pattern across all
 three, not duplicated effort by accident. What differs each time is only
 the surrounding context: a separate deployment, a separate admin key, and
