@@ -10,7 +10,7 @@
 //! centralized list of "verified quote servers".
 //!
 //! Structurally identical to sep24-attestation-registry and
-//! sep31-attestation-registry (the same "domain -> pass/fail/hash"
+//! corridorlint-registry (the same "domain -> pass/fail/hash"
 //! pattern applies regardless of which SEP is being attested to), but
 //! deployed as its own instance for this project.
 
