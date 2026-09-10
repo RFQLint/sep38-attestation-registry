@@ -1,4 +1,4 @@
-# sep38-attestation-registry
+# rfqlint-registry
 
 A minimal Soroban smart contract that stores on-chain attestations of
 [SEP-38](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md)
@@ -12,20 +12,20 @@ and
 [`sep31-attestation-registry`](https://github.com/sep31-conformance/sep31-attestation-registry)'s
 exact pattern:
 
-- [`sep38-conformance`](https://github.com/RFQLint/sep38-conformance) — the checking library + CLI. Produces the results this contract stores.
+- [`rfqlint`](https://github.com/RFQLint/rfqlint) — the checking library + CLI. Produces the results this contract stores.
 - **This repo** — the on-chain record.
-- `sep38-conformance-backend` — the API service that runs the checker and writes to this contract.
-- [`sep38-conformance-frontend`](https://github.com/RFQLint/sep38-conformance-frontend) — dashboard over that backend.
+- `rfqlint-backend` — the API service that runs the checker and writes to this contract.
+- [`rfqlint-frontend`](https://github.com/RFQLint/rfqlint-frontend) — dashboard over that backend.
 
 ```mermaid
 flowchart LR
     Anchor[(Anchor under test)]
-    Lib[sep38-conformance<br/>library + CLI]
-    BE[sep38-conformance-backend]
+    Lib[rfqlint<br/>library + CLI]
+    BE[rfqlint-backend]
     subgraph This repo
-        Contract[sep38-attestation-registry<br/>Soroban contract]
+        Contract[rfqlint-registry<br/>Soroban contract]
     end
-    FE[sep38-conformance-frontend]
+    FE[rfqlint-frontend]
 
     Lib -->|GET stellar.toml, /info, /prices, /price| Anchor
     BE -->|runs| Lib
@@ -60,7 +60,7 @@ data it's handed.
 
 ## Why this exists
 
-`sep38-conformance` can tell you, right now, whether an anchor's SEP-38
+`rfqlint` can tell you, right now, whether an anchor's SEP-38
 quote server matches spec. But that result only exists wherever the check
 happened to run. A wallet or another anchor deciding whether to trust a
 quote server needs a durable, independently queryable answer instead of a
@@ -89,12 +89,12 @@ exactly one poster:
 
 - **Trust the admin key** to only submit attestations reflecting real
   conformance runs. The admin is a single Stellar account, currently held
-  by `sep38-conformance-backend`.
+  by `rfqlint-backend`.
 - Every write is a permanent, signed, publicly-visible Stellar
   transaction — the admin can overwrite what the *current* attestation
   for a domain says, but cannot rewrite the historical record of what it
   submitted and when.
-- Because `sep38-conformance` is open source, anyone can independently
+- Because `rfqlint` is open source, anyone can independently
   re-run the same check and compare against `result_hash` — the admin's
   claims are falsifiable, not just asserted.
 - If the admin key were compromised, an attacker could write false
@@ -108,7 +108,7 @@ flowchart LR
         A[Admin key]
     end
     subgraph Verifiable by anyone
-        B[sep38-conformance source code]
+        B[rfqlint source code]
         C[This contract's on-chain state]
         D[Ledger history of every attest tx]
     end
@@ -144,10 +144,10 @@ overwritten on each new `attest` call — current status, not a history log.
 
 ```mermaid
 sequenceDiagram
-    participant Backend as sep38-conformance-backend
-    participant Checker as sep38-conformance (library)
+    participant Backend as rfqlint-backend
+    participant Checker as rfqlint (library)
     participant Anchor
-    participant Contract as sep38-attestation-registry
+    participant Contract as rfqlint-registry
 
     Backend->>Checker: runConformanceSuite(domain)
     Checker->>Anchor: GET stellar.toml, /info, /prices, /price
@@ -174,7 +174,7 @@ Round-trip verified for real on this testnet deployment. Worth noting
 what was actually attested: `testanchor.stellar.org` was written with
 `passed: false` — an honest reflection of the real, currently-reproducible
 `/sep38/price` failure documented in
-[`sep38-conformance`'s README](https://github.com/RFQLint/sep38-conformance#a-real-bug-this-tool-found-in-sdfs-own-reference-anchor),
+[`rfqlint`'s README](https://github.com/RFQLint/rfqlint#a-real-bug-this-tool-found-in-sdfs-own-reference-anchor),
 not a placeholder value chosen for the demo.
 
 ## Storage and TTL considerations
@@ -196,7 +196,7 @@ monitoring this contract's own instance and persistent entries.
 - **No re-entrancy or asset-custody surface** — this contract never
   holds, transfers, or has authority over any asset.
 - **`domain` is an unvalidated string** — validation happens in
-  `sep38-conformance-backend` before `attest` is ever called.
+  `rfqlint-backend` before `attest` is ever called.
 - **Admin rotation has no timelock** — same open trade-off as both
   sibling contracts.
 
@@ -255,7 +255,7 @@ three to silently diverge in behavior for no functional reason.
 
 ## What this deliberately does not do
 
-- Run conformance checks itself (that's `sep38-conformance`'s job).
+- Run conformance checks itself (that's `rfqlint`'s job).
 - Store more than the latest attestation per domain.
 - Provide any reputation, scoring, or ranking beyond a single pass/fail
   bit.
@@ -277,7 +277,7 @@ attestations can be written, since `set_admin` itself requires the
 current admin's signature.
 
 **Can anyone call `get_attestation`?** Yes — no authentication required.
-See `sep38-conformance-backend`'s `/api/registry/:domain/onchain`
+See `rfqlint-backend`'s `/api/registry/:domain/onchain`
 endpoint for a worked example of a trustless read.
 
 ## Contributing

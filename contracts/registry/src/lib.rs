@@ -2,7 +2,7 @@
 
 //! On-chain registry of SEP-38 quote server conformance attestations.
 //!
-//! An off-chain checker (see the `sep38-conformance` and backend repos)
+//! An off-chain checker (see the `rfqlint` and backend repos)
 //! independently verifies that a given anchor's SEP-38 discovery surface
 //! (stellar.toml + GET /info, /prices, /price) conforms to spec, then
 //! submits the result here. Wallets, other anchors, and directory sites
