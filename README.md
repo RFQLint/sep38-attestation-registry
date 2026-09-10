@@ -14,7 +14,7 @@ exact pattern:
 
 - [`rfqlint`](https://github.com/RFQLint/rfqlint) — the checking library + CLI. Produces the results this contract stores.
 - **This repo** — the on-chain record.
-- `rfqlint-backend` — the API service that runs the checker and writes to this contract.
+- [`rfqlint-backend`](https://github.com/RFQLint/rfqlint-backend) — the API service that runs the checker and writes to this contract.
 - [`rfqlint-frontend`](https://github.com/RFQLint/rfqlint-frontend) — dashboard over that backend.
 
 ```mermaid
